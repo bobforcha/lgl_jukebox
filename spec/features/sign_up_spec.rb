@@ -7,7 +7,7 @@ RSpec.feature "User Signup", :type => :feature do
     fill_in "Email", :with => "rspec@test.com"
     fill_in "Password", :with => "password"
     fill_in "Password confirmation", :with => "password"
-    click_button "Sign up"
+    click_button "Sign_up"
     expect(page).to render ("/home/index")
   end
 end
