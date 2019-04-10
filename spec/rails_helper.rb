@@ -5,6 +5,7 @@ require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'capybara/rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # note: require 'devise' after require 'rspec/rails'
@@ -15,8 +16,20 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, :type => :controller
   # Use the following instead if you are on Devise <= 4.1.1
   # config.include Devise::TestHelpers, :type => :controller
+  Capybara.register_driver :chrome do |app|
+    Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
+Capybara.register_driver :headless_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: %w(headless disable-gpu window-size=1024,768) }
+  )
+
+  Capybara::Selenium::Driver.new app,
+                                 browser: :chrome,
+                              desired_capabilities: capabilities
+  end
+end
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
