@@ -8,6 +8,7 @@ RSpec.feature "User Signup", :type => :feature do
     fill_in "Password", :with => "password"
     fill_in "Password confirmation", :with => "password"
     click_button "Sign up"
+    expect(page).to have_content("Welcome")
   end
 end
   
